@@ -119,13 +119,12 @@ class CloudWatch extends AbstractProcessingHandler
     {
         $record = $this->formatRecord($record);
 
+        $this->addToBuffer($record);
+
         if ($this->currentDataAmount + $this->getMessageSize($record) >= $this->dataAmountLimit ||
             count($this->buffer) >= $this->batchSize
         ) {
             $this->flushBuffer();
-            $this->addToBuffer($record);
-        } else {
-            $this->addToBuffer($record);
         }
     }
 
